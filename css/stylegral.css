@@ -12,7 +12,6 @@ header {
     text-align: center;
     align-items: center;
     position: relative;
-    width: 100%;
     padding: 10px;
     box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
 }
@@ -30,10 +29,28 @@ nav ul {
     align-items: center;
 }
 
-nav a {
+nav a:hover {
+    text-decoration: underline;
+    background-color: #b1aeae83;
+    color: beige;
+}
+
+nav li a {
     color: #333;
     text-decoration: none;
     padding: 10px;
+    display: block;
+}
+
+nav li ul {
+    display: none;
+    min-width: 90%;
+    align-content: center;
+}
+
+nav li:hover > ul{
+display: block;
+transition: 10s;
 }
 
 /* Estilos para el logo */

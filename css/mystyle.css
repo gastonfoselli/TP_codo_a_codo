@@ -1,65 +1,9 @@
-body {
-  margin: 0;
-  font-family: 'Poppins', sans-serif;
-}
-
-header { 
-  background-color: #f2f2f2;
-  color: black;
-  display: flex;
-  justify-content: space-between;
-  text-align: center;
-  align-items: center;
-  padding: 10px;
-  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
-}
-
-/* Estilos para el logo */
-.logo {
-  flex: 0 0 auto;
-  width: 100px;
-  height: auto;
-}
-
-nav {
-  flex: 0 0 auto;
-}
-
-nav ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content:space-between;
-}
-
-nav li {
-  margin: 5px 5px;
-}
-
-nav h1 {
-  color: black;
-  font-family: 'Poppins', sans-serif;
-  margin: 0;
-  padding: 10px;
-  text-align: center;
-  align-items: center;
-}
-
-nav a {
-  color: black;
-  text-decoration: none;
-  justify-content: space-between;
-}
-
 main {
-  font-family: 'Poppins', sans-serif;
   max-width: 800px;
   margin: 0 auto;
   padding: 10px;
   align-items: center;
-  text-align: justify;
+  text-align: justify
 }
 
 section h2 {
@@ -73,10 +17,6 @@ section li {
   list-style-type: square;
 }
 
-section li:hover {
-  background-color: #eee;
-}
-
 section li h3 {
   margin-top: 0;
 }
@@ -85,54 +25,42 @@ section li p {
   margin: 10px 0;
 }
 
-button {
-  background-color: #333;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #555;
-}
-
 footer {
   font-size: xx-small;
   text-align: center;
   align-items: center;
 }
 
-/* Estilo específico para la sección AMD */
-#amd-section {
-  background-color: #eee;
-}
-
-/* Estilo específico para la sección Intel */
-#intel-section {
-  background-color: #ccc;
-}
-
-.tamaño-imagen {
-max-height: 200px;
-display: block;
-margin: 0 auto;
-}
-
 .titulo {
-color: black;
-font-family: 'Poppins', sans-serif;
-margin: 10px;
-padding: 5px;
+  color: black;
+  font-family: 'Poppins', sans-serif;
+  margin: 10px;
+  padding: 5px;
 }
 
 .introduccion {
-color:black;
-font-family: 'Poppins', sans-serif;
-font-style: italic;
-text-align: justify;
-margin: 25px;
-font-weight: bold;
-padding: 10px;
+  color: black;
+  font-family: 'Poppins', sans-serif;
+  font-style: italic;
+  text-align: justify;
+  margin: 25px;
+  font-weight: bold;
+  padding: 10px;
 }
+
+.banner {
+  position: relative;
+  overflow: hidden;
+}
+
+.banner img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@media (max-width: 768px) {
+  .banner img {
+    width: 100vw;
+    height: auto;
+  }
