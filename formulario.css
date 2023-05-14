@@ -1,0 +1,38 @@
+div.cuadro {
+    padding: 10px;
+    border: 2px solid rgb(0, 0, 0);
+    background-color: rgb(160, 160, 160);
+    border-radius: 30px;
+    display: grid;
+    place-items: center;
+}
+
+div.mapa {
+    display: grid;
+    place-items: center;
+    padding: 10px;
+    border-radius: 30px;
+}
+
+h1 {
+    text-align: center;
+}
+
+div.grande {
+    display: block;
+}
+
+div.chico {
+    display: none;
+
+}
+
+@media only screen and (min-width:768px) {
+    div.grande {
+        display: none;
+    }
+
+    div.chico {
+        display: block;
+    }
+}
