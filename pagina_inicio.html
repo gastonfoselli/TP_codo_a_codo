@@ -4,37 +4,158 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>TECHDREAMS</title>
-  <link rel="stylesheet" type="text/css" href="style_inicio.css">
+  <title>TechDreams - Home</title>
+  <link rel="stylesheet" type="text/css" href="css/style_inicio.css">
   <link rel="shortcut icon" href="Logo/FavIcon.ico">
+  <link rel="stylesheet" type="text/css" href="css/shopping_cart.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;1,100&display=swap" rel="stylesheet">
 </head>
 
-<body>
+<body onload="cart_position(); new_nav_bar()" onresize="cart_position(); new_nav_bar()">
   <header>
     <div class="logo">
-      <img src="Logo.png" style="max-width: 100px;"><!-- <h1>TECHDREAMS</h1> -->
+      <img src="Logo/Logo.png" style="max-width: 100px;"><!-- <h1>TECHDREAMS</h1> -->
     </div>
     <div class="nav">
       <nav>
-        <ul>
-          <li><a href="#" target="_blank">Home</a></li>
-          <li><a href="#" target="_blank">Shop</a></li>
-          <li><a href="#" target="_blank">About Us</a></li>
-          <li><a href="#" target="_blank">Contacto</a></li>
-          <li class="carrito">
-            <div>
+        <ul id="big_size_cart">
+          <!-- <li><a href="#" target="_blank">Home</a></li>
+          <li><a href="#" target="_self">Shop</a></li>
+          <li><a href="#" target="_self">About Us</a></li>
+          <li><a href="#" target="_self">Contacto</a></li> -->
+          <li><a href="componentes.html" target="_self">Shop</a>
+            <ul>
+                <li><a href="Procesadores.html" target="_self">Procesadores</a></li>
+                <li><a href="componentes.html" target="_self">Componentes</a></li>
+            </ul>
+          </li>
+          <li><a href="Institucional.html" target="_self">Institucional</a></li>
+          <li><a href="formulario de entrada.html" target="_self">Contacto</a></li>
+          <li class="carrito"  onclick="hide_show ()">
+            <div id="carrito_icono">
               <a>
-                <img src="herramienta.png" alt="Ver Carrito">
+                <img src="img/herramienta.png" alt="Ver Carrito">
               </a>
             </div>
           </li>
         </ul>
+        <ul id="small_size_cart" style="display: none;">
+        <li class="carrito"  onclick="hide_show ()">
+          <div id="carrito_icono">
+            <a>
+              <img src="img/herramienta.png" alt="Ver Carrito">
+            </a>
+          </div>
+        </li>
+        <li class="menu">
+          <a href="#">
+            <img src="img/menu.png" alt="">
+          </a>
+        </li>
+        </ul>
       </nav>
     </div>
   </header>
+  <div id="carrito_chico"> 
+    <div id="cart" class="shopping-cart">
+      <!-- Title -->
+      <div class="title_cart">
+        Mi carrito
+      </div>
+    
+      <!-- Product #1 -->
+      <div class="item">
+        <div class="delete-btn" onclick="delete_item(this)">
+          <img src="img/delete-icn.svg" alt="">
+        </div>
+    
+        <div class="image">
+          <img src="img/3080ti.jpg" alt="" />
+        </div>
+    
+        <div class="description">
+          <span>NVIDIA</span>
+          <span>GeForce RTX 3080 Ti</span>
+          <span>Placa de video</span>
+        </div>
+    
+        <div class="quantity">
+          <button class="plus-btn" type="button" name="button" onclick="add_quantity('cantidad_1'); total_price('total_1','cantidad_1')">
+            <img src="img/plus.png" alt="" />
+          </button>
+          <input id='cantidad_1' type="text" name="name"  value="1">
+          <button class="minus-btn" type="button" name="button" onclick="substract_quantity ('cantidad_1'); total_price('total_1','cantidad_1')">
+            <img src="img/minus.png" alt="" />
+          </button>
+        </div>
+    
+        <div class="total-price"><input id='total_1' type="text" data-type="currency" name="500000" value="$ 500000"></div>
+      </div>
+    
+      <!-- Product #2 -->
+      <div class="item">
+        <div class="delete-btn" onclick="delete_item(this)">
+          <img src="img/delete-icn.svg" alt="">
+        </div>
+    
+        <div class="image">
+          <img src="img/Motherboard ASUS.jpg" alt=""/>
+        </div>
+    
+        <div class="description">
+          <span>ASUS</span>
+          <span>ROG Strix B550-F Gaming</span>
+          <span>Motherboard</span>
+        </div>
+    
+        <div class="quantity">
+          <button class="plus-btn" type="button" name="button" onclick="add_quantity('cantidad_2'); total_price('total_2','cantidad_2')">
+            <img src="img/plus.png" alt="" />
+          </button>
+          <input id='cantidad_2' type="text" name="name" value="1">
+          <button class="minus-btn" type="button" name="button" onclick="substract_quantity ('cantidad_2'); total_price('total_2','cantidad_2')">
+            <img src="img/minus.png" alt="" />
+          </button>
+        </div>
+    
+        <div class="total-price"><input id='total_2' type="text" name="135000" value="$ 135000"></div>
+      </div>
+    
+      <!-- Product #3 -->
+      <div class="item">
+        <div class="delete-btn" onclick="delete_item(this)">
+          <img src="img/delete-icn.svg" alt="">
+        </div>
+    
+        <div class="image">
+          <img src="img/ryzen 5600x.jpg" alt="">
+        </div>
+    
+        <div class="description">
+          <span>AMD</span>
+          <span>Ryzen 5 5600X</span>
+          <span>Procesador</span>
+        </div>
+    
+        <div class="quantity">
+          <div>
+            <button class="plus-btn" type="button" name="button" onclick="add_quantity('cantidad_3'); total_price('total_3','cantidad_3')">
+            <img src="img/plus.png" alt="" />
+            </button>
+            <input id="cantidad_3" type="text" name="name" value="1">
+            <button class="img/minus-btn" type="button" name="button" onclick="substract_quantity ('cantidad_3'); total_price('total_3','cantidad_3')">
+              <img src="minus.png" alt="" />
+            </button>
+          </div>
+        </div>
+    
+        <div class="total-price"><input id='total_3' type="text" name="200000" value="$ 200000"></div>
+      </div>
+    </div>
+  </div>
   <div class="container-general">
-    <div>
-      <img id="baner" src="Baner_principal.png">
+    <div class="baner">
+      <img id="baner" src="img/Baner_principal.png">
     </div>
     <div class="container">
       <div class="sinopsis" style="border-right: 1px solid #dfdfdf;">
@@ -48,7 +169,7 @@
         </div>
         <div>
           <ul class="productos">
-            <li><a href="componentes.html">Procesadores</a></li>
+            <li><a href="Procesadores.html">Procesadores</a></li>
             <li><a href="componentes.html">Motherboards</a></li>
             <li><a href="componentes.html">Memorias RAM</a></li>
             <li><a href="componentes.html">Discos Duros y SSD</a></li>
@@ -141,7 +262,7 @@
           </div>
         </div>
         <div class="best-sellers-container">
-          <div class="title" style="border-bottom: 1px solid #dfdfdf;">Los más vendidos</div>
+          <div class="title" style="border-bottom: 1px solid #dfdfdf; ">Los más vendidos</div>
           <div class="best-sellers">
             <div class="best-sellers-item">
               <img
@@ -238,8 +359,10 @@
           </div>
         </div>
       </div>
+      <div id="carrito_grande">
+      </div>
     </div>
-    <div>
+    <div id="footer">
       <footer class="footer">
         <div class="info-extra">
           <div class="info-extra-items">
@@ -259,7 +382,7 @@
         </div>
         <div class="links">
           <div class="logo">
-            <img src="Logo.png" style="max-width: 100px;"><!-- <h1>TECHDREAMS</h1> -->
+            <img src="Logo/Logo.png"><!-- <h1>TECHDREAMS</h1> -->
           </div>
           <div>
             <p><b>Ayuda</b></p>
@@ -285,12 +408,13 @@
             </ul>
           </div>
         </div>
-        <div>
+        <div class="copyright">
           <p>© 2023 TechDreams. Todos los derechos reservados.</p>
         </div>
       </footer>
     </div>
   </div>
+  <script type="text/javascript" src="JS/shopping_cart_js.js"></script>
 </body>
 
 </html>
