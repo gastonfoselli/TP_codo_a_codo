@@ -2,116 +2,111 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agregar producto</title>
-    <link rel="shortcut icon" href="FavIcon.ico"/>
-    <link rel="stylesheet" href="css/PyStyle.css">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agregar producto</title>
+  <link rel="shortcut icon" href="FavIcon.ico" />
+  <link rel="stylesheet" href="css/PyStyle.css">
 </head>
 
 <body>
-    <header>
-        <a class="logo" href="pagina_inicio.html"><img class="logo" src="Logo.png" alt="Logo de TechDreams"></a>
-    </header>
+  <header>
+    <a class="logo" href="pagina_inicio.html"><img class="logo" src="Logo.png" alt="Logo de TechDreams"></a>
+  </header>
 
-    <main>
-        <div class="container" id="app">
-            <h1>Agregar Productos al Inventario</h1>
-            <form>
-                <label for="ProductName">Nombre del producto:</label>
-                <input type="text" id="name" name="ProductName" placeholder="Ingrese nombre del producto" v-model="nombre" required><br>
+  <main>
+    <div class="container" id="app">
+      <h1>Agregar Productos al Inventario</h1>
+      <form id="formulario">
+        <label for="ProductName">Nombre del producto:</label>
+        <input type="text" id="nombre" name="ProductID" placeholder="Ingrese nombre del producto" required><br>
 
-                <label for="CategoryID">Categoría del producto:</label>
-                <input type="number" id="Category" name="CategoryID" placeholder="Ingrese número perteneciente a la categoría del producto" v-model="categoría" required><br>
+        <label for="CategoryID">Categoría del producto:</label>
+        <input type="number" id="categoria" name="CategoryID"
+          placeholder="Ingrese número perteneciente a la categoría del producto" required><br>
 
-                <label for="ManufacturerID">Fabricante:</label>
-                <input type="number" id="Manufacturer" name="ManufacturerID" placeholder="Ingrese número vinculado al fabricante del producto" v-model="fabricante" required><br>
+        <label for="ManufacturerID">Fabricante:</label>
+        <input type="number" id="fabricante" name="ManufacturerID"
+          placeholder="Ingrese número vinculado al fabricante del producto" required><br>
 
-                <label for="Price">Precio:</label>
-                <input type="number" step="1" id="Price" name="Price" placeholder="Ingrese valor del producto" v-model="precio" required><br>
+        <label for="Price">Precio:</label>
+        <input type="number" step="1" id="precio" name="Price" placeholder="Ingrese valor del producto" required><br>
 
-                <label for="StockQuantity">Cantidad:</label>
-                <input type="number" step="1" id="StockQuantity" name="StockQuantity" placeholder="Ingrese cantidad del producto a agregar" v-model="stock" required><br>
+        <label for="StockQuantity">Cantidad:</label>
+        <input type="number" step="1" id="cantidad" name="StockQuantity"
+          placeholder="Ingrese cantidad del producto a agregar" required><br>
 
-                <label for="description">Descripción:</label>
-                <input type="text" id="description" name="description" placeholder="Ingrese descripción del producto" v-model="descripción" required><br>
+        <label for="description">Descripción:</label>
+        <input type="text" id="descripcion" name="description" placeholder="Ingrese descripción del producto"
+          required><br>
 
-                <label for="Image">URL Imagen:</label>
-                <input type="text" id="Image" name="Image" placeholder="Ingrese imagen del producto" v-model="imagen"><br>
-                <img width="100" :src="imagen" alt="">
+        <label for="Image">URL Imagen:</label>
+        <input type="text" id="imagen" name="Image" placeholder="Ingrese imagen del producto"><br>
+        <img width="100" alt="">
 
-                <button type="submit" class="btn btn-success" v-on:click="agregar_producto()">Agregar Producto</button>
-                <a href="index.html">Menu principal</a>
-            </form>
-        </div>
-    </main>
+        <button type="submit" class="btn btn-success" v-on:click="agregar_producto()">Agregar Producto</button>
+        <a href="index.html">Menu principal</a>
+      </form>
+    </div>
+  </main>
 
-<script>
-    const { createApp } = Vue;
-createApp({
-  data() {
-    return {
-      productos: [],
-      url: 'https://techdreamscac.pythonanywhere.com/agregar-producto', 
-      error: false,
-      cargando: true,
-      
-      ProductID: 0,
-      ProductName: "",
-      CategoryID: 0,
-      ManufacturerID: 0,
-      Price: 0,
-      StockQuantity: 0,
-      Description: "",
-      Image: "",
-    };
-  },
-    methods: {
-    fetchData(url) {
-      fetch(url)
-        .then(response => response.json())
-        .then(data => {
-          this.productos = data;
-          this.cargando = false;
-        })
-        .catch(err => {
-          console.error(err);
-          this.error = true;
-        });
-    },
-    agregar_producto() {
-      let producto = {
-        ProductName: this.ProductName,
-        CategoryID: this.CategoryID,
-        ManufacturerID: this.ManufacturerID,
-        Price: this.Price,
-        StockQuantity: this.StockQuantity,
-        Description: this.Description,
-        Image: this.Image
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
+  <script>
+    //const URL = "http://127.0.0.1:5000/"
+    const URL = "https://techdreamscac.pythonanywhere.com/"
+    // Capturamos el evento de envío del formulario
+    document.getElementById('formulario').addEventListener('submit', function (event) {
+      event.preventDefault(); // Evitamos que se recargue la página
+      // Obtenemos los valores del formulario
+      var descripcion = document.getElementById('descripcion').value;
+      var cantidad = document.getElementById('cantidad').value;
+      var precio = document.getElementById('precio').value;
+      var fabricante = document.getElementById('fabricante').value;
+      var nombre = document.getElementById('nombre').value;
+      var categoria = document.getElementById('categoria').value;
+      // Creamos un objeto con los datos del producto
+      var producto = {
+        descripcion: descripcion,
+        cantidad: cantidad,
+        precio: precio,
+        fabricante: fabricante,
+        nombre: nombre,
+        categoria: categoria
       };
-      var options = {
-        body: JSON.stringify(producto),
+      console.log(producto)
+      // Realizamos la solicitud POST al servidor
+      fetch(URL + 'agregar-producto', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        redirect: 'follow'
-      };
-      fetch(this.url, options)
-        .then(function () {
-          alert("Registro guardado");
-          window.location.href = "index.html";
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(producto)
+      })
+        .then(function (response) {
+          // Código para manejar la respuesta
+          if (response.ok) {
+            return response.json(); // Parseamos la respuesta JSON
+          } else {
+            // Si hubo un error, lanzar explícitamente una excepción
+            // para ser "catcheada" más adelante
+            throw new Error('Error al agregar el producto.');
+          }
         })
-        .catch(err => {
-          console.error(err);
-          alert("Error al Guardar");
+        .then(function (data) {
+          alert('Producto agregado correctamente.');
+          //Limpiamos el formulario.
+          document.getElementById('codigo').value = "";
+          document.getElementById('descripcion').value = "";
+          document.getElementById('cantidad').value = "";
+          document.getElementById('precio').value = "";
+        })
+        .catch(function (error) {
+          // Código para manejar errores
+          alert('Error al agregar el producto.');
         });
-    }
-  },
-  created() {
-    this.fetchData(this.url);
-  }
-}).mount('#app');
-</script>
+    })
+  </script>
 
 </body>
 

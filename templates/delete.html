@@ -30,16 +30,21 @@
             </tr>
         </thead>
         <tbody>
-            <tr v-for="product in productos" :key="product.ProductID">
-                <td>{{ product.ProductID }}</td>
-                <td>{{ product.ProductName }}</td>
-                <td>{{ product.CategoryID }}</td>
-                <td>{{ product.ManufacturerID }}</td>
-                <td>{{ product.Price }}</td>
+            <tr v-for="product in productos" :key="product.codigo">
+                <td>{{ product.codigo }}</td>
+                <td>{{ product.nombreProducto }}</td>
+                <td>{{ product.categoria }}</td>
+                <td>{{ product.precio }}</td>
                 <td>{{ product.StockQuantity }}</td>
-                <td>{{ product.Description }}</td>
-                <td>{{ product.Image }}</td>
-                <td><button type="button" class="btn btn-danger" v-on:click="eliminar_producto(producto.ProductID)">Eliminar</button></td>
+                <td>{{ product.descripcion }}</td>
+                <td>
+                    <img
+                      width="60"
+                      :src="product.imagen"
+                      :alt="product.nombreProducto"
+                    />
+                  </td>
+                <td><button type="button" class="btn btn-danger" v-on:click="eliminar_producto(product.codigo)">Eliminar</button></td>
             </tr>
         </tbody>
     </table>
@@ -51,7 +56,7 @@
             data() {
                 return {
                     productos: [],
-                    url: 'https://techdreamscac.pythonanywhere.com/eliminar-producto',
+                    url: 'https://techdreamscac.pythonanywhere.com/productos',
                     error: false,
                     cargando: true,
                 };
@@ -70,7 +75,7 @@
                         });
                 },
                 eliminar_producto(ProductID) {
-                    const url = this.url + ProductID;
+                    const url = this.url + "/eliminar-producto/" +ProductID;
                     var options = {
                         method: 'DELETE',
                     };
