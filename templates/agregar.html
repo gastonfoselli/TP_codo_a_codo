@@ -6,8 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agregar producto</title>
-    <link rel="shortcut icon" href="FavIcon.ico" />
-    <link rel="stylesheet" href="PyStyle.css">
+    <link rel="shortcut icon" href="FavIcon.ico"/>
+    <link rel="stylesheet" href="css/PyStyle.css">
 </head>
 
 <body>
@@ -78,18 +78,6 @@ createApp({
         .catch(err => {
           console.error(err);
           this.error = true;
-        });
-    },
-    eliminar_producto(ProductID) {
-      const url = this.url + ProductID;
-      var options = {
-        method: 'DELETE',
-      };
-      fetch(url, options)
-        .then(res => res.json())
-        .then(res => {
-          alert('Registro Eliminado');
-          location.reload();
         });
     },
     agregar_producto() {

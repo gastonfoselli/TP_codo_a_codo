@@ -4,8 +4,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 import pymysql
 
-stock = Flask(__name__)
-CORS(stock)
+app = Flask(__name__)
+CORS(app)
 
 
 class Producto:
@@ -102,17 +102,17 @@ def obtener_productos():
 @app.route('/agregar-producto', methods=['POST'])
 def agregar_producto():
     productos = inventario.agregar_producto()
-    return render_template('templates/agregar.html', productos=productos)
+    return render_template('agregar.html', productos=productos)
 
 @app.route('/modificar-producto/<int:codigo>', methods=['PUT'])
 def modificar_producto():
     productos = inventario.modificar_producto()
-    return render_template('templates/modificaciones.html', productos=productos)
+    return render_template('modificaciones.html', productos=productos)
 
 @app.route('/eliminar-producto/<int:codigo>', methods=['DELETE'])
 def eliminar_productos():
     productos = inventario.eliminar_producto()
-    return render_template('templates/delete.html', productos=productos)
+    return render_template('delete.html', productos=productos)
 
 if __name__ == '__main__':
     app.run(debug=True, port=5500)
