@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>TechDreams - Shopping Cart</title>
+        <link rel="stylesheet" type="text/css" href="css/style_inicio.css">
+        <link rel="shortcut icon" href="Logo/FavIcon.ico">
+        <link rel="stylesheet" type="text/css" href="css/shopping_cart.css">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;1,100&display=swap" rel="stylesheet">
+        <style>
+            
+            .item {
+              display: grid;
+              grid-template-columns: 1fr 8fr 1fr 1fr 1fr 1fr 2fr ;
+              align-items: center;
+              justify-content: center;
+              align-content: center;
+              justify-items: center;
+              margin-bottom: 10px;
+            }
+            
+            .item img {
+              width: 50px;
+              height: 50px;
+              margin-right: 10px;
+            }
+            
+            .item-name {
+              flex-grow: 1;
+              margin-right: 10px;
+              font-size: 20px;
+            }
+            
+            .quantity {
+              display: flex;
+              align-items: center;
+              margin-right: 10px;
+              padding: 0px;
+              
+            }
+            
+            .quantity input {
+              width: 30px;
+              text-align: center;
+              font-size: 30px;
+              align-self: center;
+              justify-self: center;
+            }
+            
+            .total {
+              font-weight: bold;
+              font-size: 20px;
+            }
+
+            .total input {
+              width: 200px;
+              text-align: center;
+              font-size: 30px;
+              align-self: center;
+              justify-self: center;
+              border: 0px;
+            }
+            
+            .delete-icon,
+            .plus-icon,
+            .minus-icon {
+              cursor: pointer;
+              margin-left: 5px;       
+            }
+            .delete-icon img,
+            .plus-icon img,
+            .minus-icon img{
+                width: 30px;
+                height: 30px;
+            }
+          </style>
+      </head>
+      
+      <body>
+        <header>
+          <div class="logo">
+            <img src="Logo/Logo.png" style="max-width: 100px;"><!-- <h1>TECHDREAMS</h1> -->
+          </div>
+          <div class="nav">
+            <nav>
+              <ul id="big_size_cart">
+                <!-- <li><a href="#" target="_blank">Home</a></li>
+                <li><a href="#" target="_self">Shop</a></li>
+                <li><a href="#" target="_self">About Us</a></li>
+                <li><a href="#" target="_self">Contacto</a></li> -->
+                <li><a href="componentes.html" target="_self">Shop</a>
+                  <ul>
+                      <li><a href="Procesadores.html" target="_self">Procesadores</a></li>
+                      <li><a href="componentes.html" target="_self">Componentes</a></li>
+                  </ul>
+                </li>
+                <li><a href="Institucional.html" target="_self">Institucional</a></li>
+                <li><a href="formulario de entrada.html" target="_self">Contacto</a></li>
+                <li class="carrito"  onclick="hide_show ()">
+                </li>
+              </ul>
+              <ul id="small_size_cart" style="display: none;">
+              <li class="carrito"  onclick="hide_show ()">
+                <div id="carrito_icono">
+                  <a>
+                    <img src="img/herramienta.png" alt="Ver Carrito">
+                  </a>
+                </div>
+              </li>
+              <li class="menu">
+                <a href="#">
+                  <img src="img/menu.png" alt="">
+                </a>
+              </li>
+              </ul>
+            </nav>
+          </div>
+        </header>
+        <div id="shopping-cart">
+        </div>
+<script>
+    /* const URL = "http://127.0.0.1:5000/" */
+    const URL = "http://techdreamscac.pythonanywhere.com/"
+    fetch(URL + 'carrito')
+            .then(function (response) {
+                if (response.ok) {
+                    return response.json(); // Parseamos la respuesta JSON
+                } else {
+                    // Si hubo un error, lanzar explícitamente una excepción
+                    // para ser "catcheada" más adelante
+                    throw new Error('Error al obtener los productos.');
+                }
+            })
+            .then(function (data) {
+                console.log(data);
+            var listaCarrito = document.getElementById('shopping-cart');
+
+            // Check if the data array has any objects
+            if (data.length > 0) {
+                // Iterate over the products and create li elements
+                for (let i=0; i < data.length; i++) {
+                    /* if (data[i].categoria === 1) { */
+                        var linea = document.createElement('div');
+                        linea.innerHTML = '<div class="item">' + 
+                                            '<img src="' + data[i].image+'" alt="Product 1">' + 
+                                            '<div class="item-name">' + data[i].producto + '</div>' +
+                                            '<div class="delete-icon" value="' + data[i].codigo +'"><img src="img/delete-icn.svg"></div>' +
+                                            '<div class="plus-icon" name="' + data[i].codigo +'" value="' + data[i].cantidad +'"><img src="img/plus.png"></div>' +
+                                            '<div class="quantity">'+
+                                                '<input id="cantidad' + data[i].codigo +'" type="text" value="' + data[i].cantidad +'" readonly>' +
+                                            '</div>' +
+                                            '<div class="minus-icon" name="' + data[i].codigo +'" value="' + data[i].cantidad +'"><img src="img/minus.png"></div>' +
+                                            '<div class="total">' +
+                                                '<input id="total' + data[i].codigo +'" name="' + parseFloat(data[i].price) +'" value="' + parseInt(data[i].cantidad)*parseFloat(data[i].price) +'" readonly>' +
+                                                '</div>'+
+                                            '</div>'
+                        listaCarrito.appendChild(linea);
+                    };
+                    console.log(data[i]);
+                }
+            /* } */ else {
+                // Handle case when data array is empty
+                var mensaje = document.createElement('li');
+                mensaje.textContent = 'No hay productos en el carrito.';
+                listaCarrito.appendChild(mensaje);
+            }
+        
+        var deletebutton = document.getElementsByClassName('delete-icon');
+        var plusbutton = document.getElementsByClassName('plus-icon');
+        var minusbutton = document.getElementsByClassName('minus-icon');
+            
+            for (var i = 0; i < deletebutton.length; i++) {
+                deletebutton[i].addEventListener('click', deleteClick);
+            }
+            for (var i = 0; i < plusbutton.length; i++) {
+                plusbutton[i].addEventListener('click', plusClick);
+            }
+            for (var i = 0; i < minusbutton.length; i++) {
+                minusbutton[i].addEventListener('click', minusClick);
+            }
+
+        })
+
+        .catch(function (error) {
+            // Handle errors
+            alert('Error al obtener los productos.');
+        });
+
+        function deleteClick() {
+            var IDOrderProduct = parseInt(this.getAttribute('value'));
+            var itemElement = this.closest('.item');
+
+            var data = {
+            codigo: IDOrderProduct
+            };
+            fetch(URL + 'carrito/' + IDOrderProduct, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(function(response) {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Error al eliminar el producto del carrito.');
+                }
+            })
+            .then(function(data) {
+                console.log(data);
+                itemElement.remove();
+            })
+            .catch(function(error) {
+                console.error(error);
+            });
+            console.log(data)};
+        
+        function plusClick() {
+            var IDOrderProduct = parseInt(this.getAttribute('name'));
+            var CantidadCarrito = parseInt(this.getAttribute('value'));
+            var InputCantidad = document.getElementById('cantidad'+IDOrderProduct);
+            var TotalProducto = document.getElementById('total'+IDOrderProduct);
+            var itemElement = this.closest('.item');
+
+            var data = {
+            codigo: IDOrderProduct,
+            cantidad: CantidadCarrito + 1
+            };
+            fetch(URL + 'carrito/' + IDOrderProduct, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(function(response) {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Error al aumentar cantidad.');
+                }
+            })
+            .then(function(data) {
+                console.log(data);
+                /* InputCantidad.value=CantidadCarrito+1
+                TotalProducto.value=parseFloat(TotalProducto.name) * InputCantidad.value */
+                location.reload();
+
+            })
+            .catch(function(error) {
+                console.error(error);
+            });
+            console.log(data)};
+
+        function minusClick() {
+            var IDOrderProduct = parseInt(this.getAttribute('name'));
+            var CantidadCarrito = parseInt(this.getAttribute('value'));
+            var InputCantidad = document.getElementById('cantidad'+IDOrderProduct);
+            var TotalProducto = document.getElementById('total'+IDOrderProduct);
+            var itemElement = this.closest('.item');
+
+            var data = {
+            codigo: IDOrderProduct,
+            cantidad: CantidadCarrito - 1
+            };
+            fetch(URL + 'carrito/' + IDOrderProduct, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(function(response) {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Error al aumentar cantidad.');
+                }
+            })
+            .then(function(data) {
+                console.log(data);
+                /* InputCantidad.value=CantidadCarrito-1
+                TotalProducto.value=parseFloat(TotalProducto.name) * InputCantidad.value */
+                location.reload();
+
+            })
+            .catch(function(error) {
+                console.error(error);
+            });
+            console.log(data)};
+</script>
+</body>
+</html>

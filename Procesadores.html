@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Venta de componentes de PC</title>
+    <link rel="stylesheet" type="text/css" href="css/style_inicio.css">
+    <link rel="stylesheet" href="css/estilos.css">
+    <link rel="shortcut icon" href="Logo/FavIcon.ico">
+    <link rel="stylesheet" href="css/stylegral.css">
+    <link rel="stylesheet" type="text/css" href="css/shopping_cart.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;1,100&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <header>
+        <a href="pagina_inicio.html"><img class="logo" src="Logo/Logo.png" alt="Logo de TechDreams"></a>
+
+        <nav>
+            <ul>
+                <li><a href="componentes.html" target="_self">Shop</a>
+                    <ul>
+                        <li><a href="Procesadores.html" target="_self">Procesadores</a></li>
+                        <li><a href="componentes.html" target="_self">Componentes</a></li>
+                    </ul>
+                </li>
+                <li><a href="Institucional.html" target="_self">Institucional</a></li>
+                <li><a href="formulario de entrada.html" target="_self">Contacto</a></li>
+                <li class="carrito"  onclick="hide_show ()">
+                    <div id="carrito_icono">
+                        <a href="shoppingcart.html" target="_blank">
+                        <img src="img/herramienta.png" alt="Ver Carrito">
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="amd">
+            <h2>Procesadores de última generación</h2>
+            <ul id="procesadores">
+                <!-- <li>
+
+                    <img src="img/AMD Ryzen 9 5950X.jpg" alt="AMD Ryzen 9 5950X" class="tamaño-imagen">
+                    <h3>AMD Ryzen 9 5950X</h3>
+                    <p>Este procesador de 16 núcleos y 32 hilos ofrece un rendimiento excepcional para aplicaciones de
+                        alto rendimiento, como edición de video y juegos.</p>
+                    <p>Precio: $400000</p>
+                    <button>Agregar al carrito</button>
+                </li>
+                <li>
+                    <img src="img/ryzen 7 5800.jpg" alt="ryzen 7 5800" class="tamaño-imagen">
+                    <h3>AMD Ryzen 7 5800X</h3>
+                    <p>Con 8 núcleos y 16 hilos, este procesador ofrece un rendimiento excepcional para juegos y
+                        aplicaciones multitarea.</p>
+                    <p>Precio:$320000 </p>
+                    <button>Agregar al carrito</button>
+                </li>
+                <li>
+                    <img src="img/ryzen 5600x.jpg" alt="ryzen 5600x" class="tamaño-imagen">
+                    <h3>AMD Ryzen 5 5600X</h3>
+                    <p>Este procesador de 6 núcleos y 12 hilos ofrece un rendimiento excepcional para juegos y
+                        aplicaciones multitarea.</p>
+                    <p>Precio:$200000</p>
+                    <button>Agregar al carrito</button>
+                </li> -->
+            </ul>
+        </section>
+
+        <!-- <section id="intel">
+            <h2>Procesadores Intel de última generación</h2>
+            <ul>
+                <li>
+                    <img src="img/i9 11900x.jpg" alt="i9 11900x" class="tamaño-imagen">
+                    <h3>Intel Core i9-11900K</h3>
+                    <p>Con 8 núcleos y 16 hilos, este procesador ofrece un rendimiento excepcional para aplicaciones de
+                        alta exigencia como edición de video y juegos.</p>
+                    <p>Precio:$480000 </p>
+                    <button>Agregar al carrito</button>
+                </li>
+                <li>
+                    <img src="img/i7 11700k.jpg" alt="i7 11700k" class="tamaño-imagen">
+                    <h3>Intel Core i7-11700K</h3>
+                    <p>Este procesador de 8 núcleos y 16 hilos ofrece un rendimiento excepcional para juegos y
+                        aplicaciones multitarea.</p>
+                    <p>Precio:$300000 </p>
+                    <button>Agregar al carrito</button>
+                </li>
+                <li>
+                    <img src="img/i5 11600.jpg" alt="i5 11600" class="tamaño-imagen">
+                    <h3>Intel Core i5-11600K</h3>
+                    <p>El i5-11600K es una opción popular para los usuarios que buscan un rendimiento potente y una
+                        buena relación calidad-precio en su procesador de escritorio.</p>
+                    <p>Precio:$120000</p>
+                    <button>Agregar al carrito</button>
+
+            </ul>
+            </seleccion> -->
+    </main>
+<script>
+    /* const URL = "http://127.0.0.1:5000/" */
+    const URL = "http://techdreamscac.pythonanywhere.com/"
+    fetch(URL + 'productos')
+            .then(function (response) {
+                if (response.ok) {
+                    return response.json(); // Parseamos la respuesta JSON
+                } else {
+                    // Si hubo un error, lanzar explícitamente una excepción
+                    // para ser "catcheada" más adelante
+                    throw new Error('Error al obtener los productos.');
+                }
+            })
+            .then(function (data) {
+            var listaProductos = document.getElementById('procesadores');
+
+            // Check if the data array has any objects
+            if (data.length > 0) {
+                // Iterate over the products and create li elements
+                for (let i=0; i < data.length; i++) {
+                    if (data[i].categoria === 1) {
+                        var linea = document.createElement('li');
+                        linea.innerHTML = '<img src="' + data[i].imagen + '" alt="AMD Ryzen 9 5950X" class="tamaño-imagen">' +
+                            '<h3>' + data[i].nombreproducto + '</h3>' +
+                            '<p>' + data[i].descripcion + '</p>' +
+                            '<p>Precio: &nbsp; &nbsp;&nbsp; &nbsp;$' + data[i].precio + '</p>' +
+                            '<button class="addCart" value="' + data[i].codigo +'"">Agregar al carrito</button>';
+                        listaProductos.appendChild(linea);
+                    };
+                }
+            } else {
+                // Handle case when data array is empty
+                var mensaje = document.createElement('li');
+                mensaje.textContent = 'No hay productos disponibles.';
+                listaProductos.appendChild(mensaje);
+            }
+        
+        var addCartclass = document.getElementsByClassName('addCart');
+            
+            for (var i = 0; i < addCartclass.length; i++) {
+                addCartclass[i].addEventListener('click', handleClick);
+            }
+        })
+
+        .catch(function (error) {
+            // Handle errors
+            alert('Error al obtener los productos.');
+        });
+
+function handleClick() {
+        var IDproducto = parseInt(this.getAttribute('value'));
+        var customerID = 120;
+        var cantidad = 1
+
+        var data = {
+        codigo: IDproducto,
+        cantidad: cantidad,
+        customer: customerID
+    };
+    fetch(URL + 'carrito', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(function(response) {
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error('Error al agregar el producto al carrito.');
+        }
+    })
+    .then(function(data) {
+        console.log(data);
+    })
+    .catch(function(error) {
+        console.error(error);
+    });
+console.log(data)};
+</script>
+</body>
+<br>
+<footer>
+    <p>© 2023 TechDreams. Todos los derechos reservados.</p>
+</footer>
+
+</html>
