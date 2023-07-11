@@ -19,7 +19,7 @@
       <div id="app" class="container">
         <h1>Productos</h1>
         <br />
-        <a class="btn btn-primary" href="templates/agregar.html">Nuevo</a>
+        <a class="btn btn-primary" href="agregar.html">Nuevo</a>
         <br /><br />
         <div v-if="error">
           <p>Lo sentimos, ha ocurrido un error.</p>
@@ -76,7 +76,7 @@
         data() {
           return {
             productos: [],
-            url: 'http://localhost:5500',
+            url: 'http://localhost:5500/obtener-productos',
             error: false,
             cargando: true,
           };
