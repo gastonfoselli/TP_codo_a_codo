@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Modificar Producto</title>
     <link rel="shortcut icon" href="Logo/" />
-    <link rel="shortcut icon" href="{{ url_for('static', filename= 'FavIcon.ico') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename= 'css/style.css') }}">
+    <link rel="shortcut icon" href="FavIcon.ico"/>
+    <link rel="stylesheet" href="css/PyStyle.css">
   </head>
 
   <body>
@@ -123,6 +123,10 @@
         el: "#app",
         data() {
           return {
+            productos: [],
+            url: 'http://localhost:5500/modificar-producto', 
+            error: false,
+            cargando: true,
             mostrarFormulario: false,
             nombre: "",
             categoría: 0,
