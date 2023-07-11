@@ -27,13 +27,13 @@ class Producto:
 class Inventario:
     def __init__(self):
         self.conexion = pymysql.connect(
-            host="localhost",
-            user="root",
-            password="",
-            database="pccomponentsstore"
-        )
+            host='techdreamscac.mysql.pythonanywhere-services.com', 
+            port=3306,
+            user='techdreamscac', 
+            password='TDCAC2023_', 
+            database='techdreamscac$pccomcponentsstore')
+        
         self.cursor = self.conexion.cursor()
-
     def agregar_producto(self, codigo, producto, IDcategoria, IDfabricante, precio, cantidad, descripcion, imagen):
         producto_existente = self.consultar_producto(codigo)
         if producto_existente:
