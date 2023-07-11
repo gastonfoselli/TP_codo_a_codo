@@ -95,9 +95,13 @@ CORS(app)
 inventario = Inventario()
 
 @app.route('/', methods=['GET'])
+def index():
+    return render_template('index.html')
+
+@app.route('/obtener-productos', methods=['GET'])
 def obtener_productos():
     productos = inventario.listar_productos()
-    return render_template('index.html', productos=productos)
+    return render_template('consultar.html', productos=productos)
 
 @app.route('/agregar-producto', methods=['POST'])
 def agregar_producto():
