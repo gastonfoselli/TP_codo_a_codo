@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Modificar Producto</title>
+    <link rel="shortcut icon" href="Logo/FavIcon.ico" />
+    <link rel="stylesheet" href="css/PyStyle.css">
+  </head>
+
+  <body>
+    <header>
+      <a class="logo" href="pagina_inicio.html"
+        ><img class="logo" src="Logo/Logo.png" alt="Logo de TechDreams"
+      /></a>
+    </header>
+    <h1>Modificar Productos del Inventario</h1>
+    <form id="formulario">
+      <label for="codigoProducto">Código:</label>
+      <input
+        type="text"
+        id="codigoProducto"
+        name="codigoProducto"
+        required
+      /><br />
+      <button type="button" class="btn btn-success" v-on:click="irAFormulario">
+        Modificar Producto
+      </button>
+      <a href="index.html"> Volver al Menú principal</a>
+    </form>
+
+    <div id="datosProducto" v-if="mostrarFormulario" hidden>
+      <h2>Datos del Producto</h2>
+      <form id="formularioModificar">
+        <label for="ProductName">Nombre del producto: </label>
+        <input
+          type="text"
+          id="name"
+          name="ProductName"
+          placeholder="Ingrese nombre del producto"
+          v-model="nombre"
+          required
+        /><br />
+
+        <label for="CategoryID">Categoría del producto:</label>
+        <input
+          type="number"
+          id="Category"
+          name="CategoryID"
+          placeholder="Ingrese número perteneciente a la categoría del producto"
+          v-model="categoría"
+          required
+        /><br />
+
+        <label for="ManufacturerID">Fabricante:</label>
+        <input
+          type="number"
+          id="Manufacturer"
+          name="ManufacturerID"
+          placeholder="Ingrese número vinculado al fabricante del producto"
+          v-model="fabricante"
+          required
+        /><br />
+
+        <label for="Price">Precio:</label>
+        <input
+          type="number"
+          step="1"
+          id="Price"
+          name="Price"
+          placeholder="Ingrese valor del producto"
+          v-model="precio"
+          required
+        /><br />
+
+        <label for="StockQuantity">Cantidad:</label>
+        <input
+          type="number"
+          step="1"
+          id="StockQuantity"
+          name="StockQuantity"
+          placeholder="Ingrese cantidad del producto a agregar"
+          v-model="stock"
+          required
+        /><br />
+
+        <label for="description">Descripción:</label>
+        <input
+          type="text"
+          id="description"
+          name="description"
+          placeholder="Ingrese descripción del producto"
+          v-model="descripción"
+          required
+        /><br />
+
+        <label for="Image">URL Imagen:</label>
+        <input
+          type="text"
+          id="Image"
+          name="Image"
+          placeholder="Ingrese imagen del producto"
+          v-model="imagen"
+        /><br />
+        <img width="100" :src="imagen" alt="" />
+
+        <button
+          type="button"
+          class="btn btn-success"
+          v-on:click="modificar_producto()"
+        >
+          Guardar Cambios
+        </button>
+        <a href="modificaciones.html">Cancelar</a>
+      </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
+    <script>
+      const app = new Vue({
+        el: "#app",
+        data() {
+          return {
+            mostrarFormulario: false,
+            nombre: "",
+            categoría: 0,
+            fabricante: 0,
+            precio: 0,
+            stock: 0,
+            descripción: "",
+            imagen: "",
+          };
+        },
+        methods: {
+          irAFormulario() {
+            this.mostrarFormulario = true;
+          },
+          modificar_producto() {
+            let product = {
+              ProductName: this.ProductName,
+              CategoryID: this.CategoryID,
+              ManufacturerID: this.ManufacturerID,
+              Price: this.Price,
+              StockQuantity: this.StockQuantity,
+              Description: this.Description,
+              Image: this.Image,
+            };
+            var options = {
+              body: JSON.stringify(product),
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              redirect: "follow",
+            };
+            fetch(this.url, options)
+              .then(function () {
+                alert("Registro modificado");
+                window.location.href = "index.html";
+              })
+              .catch((err) => {
+                console.error(err);
+                alert("Error al Modificar");
+              });
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

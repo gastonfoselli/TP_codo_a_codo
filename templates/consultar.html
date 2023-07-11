@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Consultar producto</title>
+    <link rel="shortcut icon" href="FavIcon.ico" />
+    <link rel="stylesheet" href="PyStyle.css">
+  </head>
+
+  <body>
+    <header>
+      <a class="logo" href="pagina_inicio.html"
+        ><img class="logo" src="Logo.png" alt="Logo de TechDreams"
+      /></a>
+    </header>
+    <main>
+      <h1>Consultar Productos por ID</h1>
+      <div id="app" class="container">
+        <h1>Productos</h1>
+        <br />
+        <a class="btn btn-primary" href="templates/agregar.html">Nuevo</a>
+        <br /><br />
+        <div v-if="error">
+          <p>Lo sentimos, ha ocurrido un error.</p>
+        </div>
+        <div v-else>
+          <section v-if="cargando">
+            <div class="spinner-border"></div>
+            <p>Cargando...</p>
+          </section>
+          <section v-else>
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>Código</th>
+                    <th>Nombre</th>
+                    <th>Categoría</th>
+                    <th>Fabricante</th>
+                    <th>Precio</th>
+                    <th>Stock</th>
+                    <th>Descripción</th>
+                    <th>Imagen</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="product in productos" :key="product.ProductID">
+                    <td>{{ product.ProductID }}</td>
+                    <td>{{ product.ProductName }}</td>
+                    <td>{{ product.CategoryID }}</td>
+                    <td>{{ product.ManufacturerID }}</td>
+                    <td>{{ product.Price }}</td>
+                    <td>{{ product.StockQuantity }}</td>
+                    <td>{{ product.Description }}</td>
+                    <td>
+                      <img
+                        width="60"
+                        :src="product.Image"
+                        :alt="product.ProductName"
+                      />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
+    <script>
+      const app = new Vue({
+        el: '#app',
+        data() {
+          return {
+            productos: [],
+            url: 'http://localhost:5500',
+            error: false,
+            cargando: true,
+          };
+        },
+        methods: {
+          obtenerProductos() {
+            const url = this.url;
+            fetch(url)
+              .then(response => {
+                if (response.ok) {
+                  return response.json();
+                } else {
+                  throw new Error('Error al obtener los productos.');
+                }
+              })
+              .then(data => {
+                this.productos = data;
+                this.cargando = false;
+              })
+              .catch(error => {
+                console.log('Error:', error);
+                this.error = true;
+              });
+          },
+        },
+        mounted() {
+          this.obtenerProductos();
+        },
+      });
+    </script>
+  </body>
+</html>

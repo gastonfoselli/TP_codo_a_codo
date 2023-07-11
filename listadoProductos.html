@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="Logo/FavIcon.ico">
+    <title>Listado de Productos</title>
+    <link rel="stylesheet" href="css/PyStyle.css">
+</head>
+
+<body>
+    <header>
+        <a class="logo" href="pagina_inicio.html"><img class="logo" src="Logo/Logo.png" alt="Logo de TechDreams"></a>
+    </header>
+    <h1>Listado de Productos</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Nombre</th>
+                <th>Categoría</th>
+                <th>Fabricante</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th>Descripción</th>
+                <th>Imagen</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="product in products">
+                <td>{{ product.ProductID }}</td>
+                <td>{{ product.ProductName }}</td>
+                <td>{{ product.CategoryID }}</td>
+                <td>{{ product.ManufacturerID }}</td>
+                <td>{{ product.Price }}</td>
+                <td>{{ product.StockQuantity }}</td>
+                <td>{{ product.Description }}</td>
+                <td>{{ product.Image }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="contenedor-centrado">
+        <a href="index.html">Menu principal</a>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
+    <script>
+        const URL = "http://127.0.0.1:5500/productos";
+
+        const app = Vue.createApp({
+            data() {
+                return {
+                    productos: []
+                }
+            },
+            methods: {
+                obtenerProductos() {
+                    fetch(techdreamscac:TDCAC2023_@techdreamscac.mysql.pythonanywhere-services.com/techdreamscac$pccomcponentsstore)
+                        .then(response => {
+                            if (response.ok) {
+                                return response.json(); // Parseamos la respuesta JSON
+                            } else {
+                                throw new Error('Error al obtener los productos.');
+                            }
+                        })
+                        .then(data => {
+                            this.productos = data; // Asignamos los productos al arreglo
+                        })
+                        .catch(error => {
+                            console.log('Error:', error);
+                            alert('Error al obtener los productos.');
+                        });
+                }
+            },
+            mounted() {
+                // Al cargar la página, obtenemos la lista de productos
+                this.obtenerProductos();
+            }
+        });
+
+        app.mount('body');
+    </script>
+</body>
+
+</html>
