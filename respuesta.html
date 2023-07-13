@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Consultas Pendientes</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .consulta-box {
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    </style>
+<link rel="stylesheet" href="PyStyle.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Consultas Pendientes</h1>
+        <div class="card">
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Asunto</th>
+                        </tr>
+                    </thead>
+                    <tbody id="consultas-list">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="consulta-box">
+            <h2>Consultar por Código</h2>
+            <form id="consulta-form">
+                <div class="form-group">
+                    <label for="codigo">Código de Consulta:</label>
+                    <input type="text" class="form-control" id="codigo" placeholder="Ingrese el código de consulta">
+                </div>
+                <button type="submit" class="btn btn-primary">Consultar</button>
+            </form>
+        </div>
+
+        <div id="consulta-detalle" style="display: none;">
+            <Página de Respuestas (continuación):
+
+```html
+            <h2>Consulta Detalle</h2>
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th>Nombre:</th>
+                        <td id="detalle-nombre"></td>
+                    </tr>
+                    <tr>
+                        <th>Apellido:</th>
+                        <td id="detalle-apellido"></td>
+                    </tr>
+                    <tr>
+                        <th>Teléfono:</th>
+                        <td id="detalle-telefono"></td>
+                    </tr>
+                    <tr>
+                        <th>Email:</th>
+                        <td id="detalle-email"></td>
+                    </tr>
+                    <tr>
+                        <th>Asunto:</th>
+                        <td id="detalle-asunto"></td>
+                    </tr>
+                    <tr>
+                        <th>Duda:</th>
+                        <td id="detalle-duda"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <form id="respuesta-form">
+                <div class="form-group">
+                    <label for="respuesta">Respuesta:</label>
+                    <textarea class="form-control" id="respuesta" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Responder</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // Función para obtener las consultas pendientes desde la API
+        function obtenerConsultasPendientes() {
+            fetch('http://127.0.0.1:5000/consultas-pendientes')
+                .then(response => response.json())
+                .then(data => {
+                    const consultasList = document.getElementById('consultas-list');
+                    consultasList.innerHTML = '';
+
+                    data.forEach(consulta => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${consulta.codigo}</td>
+                            <td>${consulta.nombre}</td>
+                            <td>${consulta.apellido}</td>
+                            <td>${consulta.asunto}</td>
+                        `;
+
+                        consultasList.appendChild(row);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+        // Función para consultar una consulta específica por código
+        function consultarConsulta(codigo) {
+            fetch(`http://127.0.0.1:5000/consultas/${codigo}`)
+                .then(response => response.json())
+                .then(data => {
+                    const detalleNombre = document.getElementById('detalle-nombre');
+                    const detalleApellido = document.getElementById('detalle-apellido');
+                    const detalleTelefono = document.getElementById('detalle-telefono');
+                    const detalleEmail = document.getElementById('detalle-email');
+                    const detalleAsunto = document.getElementById('detalle-asunto');
+                    const detalleDuda = document.getElementById('detalle-duda');
+
+                    detalleNombre.textContent = data.nombre;
+                    detalleApellido.textContent = data.apellido;
+                    detalleTelefono.textContent = data.telefono;
+                    detalleEmail.textContent = data.email;
+                    detalleAsunto.textContent = data.asunto;
+                    detalleDuda.textContent = data.duda;
+
+                    // Mostrar el detalle de la consulta
+                    document.getElementById('consulta-detalle').style.display = 'block';
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+        // Función para responder a una consulta
+        function responderConsulta(codigo, respuesta) {
+            fetch(`http://127.0.0.1:5000/consultas/${codigo}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ respuesta: respuesta })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Respuesta enviada exitosamente:', data);
+
+                    // Marcar la consulta como respondida
+                    marcarConsultaRespondida(codigo);
+
+                    // Limpiar el formulario de respuesta
+                    document.getElementById('respuesta').value = '';
+
+                    // Ocultar el detalle de la consulta
+                    document.getElementById('consulta-detalle').style.display = 'none';
+
+                    // Actualizar la lista de consultas pendientes
+                    obtenerConsultasPendientes();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+        // Función para marcar una consulta como respondida
+        function marcarConsultaRespondida(codigo) {
+            fetch(`http://127.0.0.1:5000/consultas/${codigo}/respondido`, {
+                method: 'PUT'
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Consulta marcada como respondida:', data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+        // Manejador de eventos para el formulario de consulta
+        document.getElementById('consulta-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const codigo = document.getElementById('codigo').value;
+            consultarConsulta(codigo);
+        });
+
+        // Manejador de eventos para el formulario de respuesta
+        document.getElementById('respuesta-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const codigo = document.getElementById('codigo').value;
+            const respuesta = document.getElementById('respuesta').value;
+            responderConsulta(codigo, respuesta);
+        });
+
+        // Cargar las consultas pendientes al cargar la página
+        window.onload = function () {
+            obtenerConsultasPendientes();
+        };
+    </script>
+</body>
+</html>
